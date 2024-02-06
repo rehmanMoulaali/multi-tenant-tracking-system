@@ -5,7 +5,8 @@ const { createOrganizationService,
         updateOrganizationService,
         deleteOrganizationService } = require("../services/organizationServices");
 
-        const {StatusCodes}=require('http-status-codes')
+const {StatusCodes}=require('http-status-codes')
+const CustomError = require('../errors');
 
 
 async function createOrganization(req,res){
@@ -26,13 +27,18 @@ async function getAllOrganizations(req,res){
     return res.status(StatusCodes.OK).json({organizations});
 }
 
-async function getOrganizationById(req,res){
+async function getOrganizationById(req,res,next){
     const organizationId=req.params.id;
-    const organization=await getOrganizationByIdService(organizationId);
-    if(organization){
-        return res.status(StatusCodes.OK).json({organization});
+    try {
+        const organization = await getOrganizationByIdService(organizationId);
+        if (!organization) {
+            throw new CustomError.NotFoundError(`No organization with id : ${organizationId}`);
+        }
+        return res.status(StatusCodes.OK).json({ organization });
+    } catch (error) {
+        // Pass the error to the error handling middleware
+        next(error);
     }
-    return res.status(StatusCodes.NOT_FOUND).json({message:`No organization found with id ${organizationId}`});
 }
 
 async function getOrganizationByDomain(req,res){
@@ -44,14 +50,18 @@ async function getOrganizationByDomain(req,res){
         }
     )
 }
-async function updateOrganization(req,res){
+async function updateOrganization(req,res,next){
     const orgId=req.params.id;
     const {orgname,domain,address,city,state,country,pincode,contact}=req.body;
-    const organization=await updateOrganizationService(orgId,orgname,domain,address,city,state,country,pincode,contact);   
-    if(organization){
-        return res.status(StatusCodes.OK).json({organization});
-    }
-    return res.status(StatusCodes.NOT_FOUND).json({message:`No organization found with id ${organizationId}`});
+    try {
+        const organization=await updateOrganizationService(orgId,orgname,domain,address,city,state,country,pincode,contact);   
+        if(organization){
+            return res.status(StatusCodes.OK).json({organization});
+        }
+        throw new CustomError.NotFoundError(`No organization with id : ${organizationId}`);
+    } catch (error) {
+        next(error)
+    }   
 }
 
 

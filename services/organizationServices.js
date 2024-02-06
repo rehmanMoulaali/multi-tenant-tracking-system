@@ -14,6 +14,7 @@
 //   }
 
 const prisma = require("../db/db.config.js");
+
 async function createOrganizationService(name,domain,address,city,state,country,pincode,contact){
     const organization=await prisma.organization.create({
         data:{
@@ -34,6 +35,7 @@ async function getAllOrganizationsService(){
     return await prisma.organization.findMany();
 }
 async function getOrganizationByIdService(id){
+
     return await prisma.organization.findUnique({
         where:{
             id:Number(id)
