@@ -38,7 +38,7 @@ async function getFeatureByIdService(featureId){
 async function updateFeatureService(featureId,name,description,api_path,action){
     return await Feature.update({
         where:{
-            id:featureId
+            id:Number(featureId)
         },
         data:{
             name,
@@ -52,7 +52,7 @@ async function updateFeatureService(featureId,name,description,api_path,action){
 async function deleteFeatureByIdService(featureId){
     return await Feature.delete({
         where:{
-            id:featureId
+            id:Number(featureId)
         }
     })
 }

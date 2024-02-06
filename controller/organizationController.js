@@ -34,7 +34,7 @@ async function getOrganizationById(req,res,next){
         if (!organization) {
             throw new CustomError.NotFoundError(`No organization with id : ${organizationId}`);
         }
-        return res.status(StatusCodes.OK).json({ organization });
+         res.status(StatusCodes.OK).json({ organization });
     } catch (error) {
         // Pass the error to the error handling middleware
         next(error);
@@ -65,13 +65,18 @@ async function updateOrganization(req,res,next){
 }
 
 
-async function deleteOrganizationById(req,res){
+async function deleteOrganizationById(req,res,next){
     const orgId=req.params.id;
-    const organization=await deleteOrganizationService(orgId);
-    if(organization){
-        return res.status(StatusCodes.OK).json({organization});
+    try {
+        const organization=await deleteOrganizationService(orgId);
+        if(organization){
+            return res.status(StatusCodes.OK).json({organization});
+        }
+        return res.status(StatusCodes.NOT_FOUND).json({message:`No organization found with id ${organizationId}`});
+    } catch (error) {
+        next(error)
     }
-    return res.status(StatusCodes.NOT_FOUND).json({message:`No organization found with id ${organizationId}`});
+    
     
 }
 
