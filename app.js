@@ -2,7 +2,7 @@ require('dotenv/config');
 const express = require('express');
 const { StatusCodes } = require('http-status-codes');
 const organizationRouter = require('./routes/organizationRoute');
-const errorHandlerMiddleware = require('./middlware/error-handler');
+const errorHandlerMiddleware = require('./middleware/error-handler');
 const featureRouter = require('./routes/featureRoute');
 
 const app = express();
