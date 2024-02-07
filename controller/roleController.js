@@ -36,7 +36,7 @@ async function createRoleForOrganization(req,res,next){
  */
 async function updateRoleOrganization(req,res,next){
     try {
-        const {roleId,organizationId} = req.params;
+        const {roleId,organizationId} = req.body;
         const role = await updateRoleOrganizationService(roleId,organizationId);
         if(!role){
             throw new CustomAPIError("Please check your role id and organization id and try again");

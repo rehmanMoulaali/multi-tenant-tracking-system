@@ -17,10 +17,10 @@ async function createRoleForOrganizationService(name,organizationId){
 async function updateRoleOrganizationService(roleId,organizationId){
     const updatedRole= await prisma.roles.update({
         where:{
-            id:roleId
+            id:Number(roleId)
         },
         data:{
-            organizationId:organizationId
+            organizationId:Number(organizationId)
         }
     });
     return updatedRole;
@@ -38,7 +38,7 @@ async function getAllRolesService(){
 async function getAllRolesForOrganizationService(organizationId){
     const roles=await prisma.roles.findMany({
         where:{
-            organizationId:organizationId
+            organizationId:Number(organizationId)
         }
     });
     return roles;
@@ -57,7 +57,7 @@ async function assignFeatureToRoleService(roleId,featureId){
 async function getFeaturesForRoleService(roleId){
     const roleFeature= await prisma.roleFeatures.findMany({
         where:{
-            roleId:roleId
+            roleId:Number(roleId)
         },
         include:{
             feature:true
@@ -69,8 +69,10 @@ async function getFeaturesForRoleService(roleId){
 async function removeFeatureFromRoleService(roleId,featureId){
     const roleFeature=prisma.roleFeatures.delete({
         where:{
-            roleId:roleId,
-            featureId:featureId
+            roleId_featureId: {
+                roleId: Number(roleId),
+                featureId: Number(featureId)
+            }
         }
     });
     return roleFeature;
@@ -79,7 +81,7 @@ async function removeFeatureFromRoleService(roleId,featureId){
 async function deleteRoleService(roleId){
     const role= await prisma.roles.delete({
         where:{
-            id:roleId
+            id:Number(roleId)
         }
     })
     return role;
