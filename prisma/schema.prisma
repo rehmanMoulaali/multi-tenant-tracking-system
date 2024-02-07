@@ -49,9 +49,9 @@ model Roles {
 
 model RoleFeatures {
   roleId      Int
-  role        Roles     @relation(fields: [roleId], references: [id])
+  role        Roles     @relation(fields: [roleId], references: [id], onDelete: Cascade)
   featureId   Int
-  feature     Features  @relation(fields: [featureId], references: [id])
+  feature     Features  @relation(fields: [featureId], references: [id], onDelete: Cascade)
   @@id([roleId, featureId])
 }
 
