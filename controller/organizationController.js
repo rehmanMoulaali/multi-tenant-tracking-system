@@ -11,6 +11,9 @@ const CustomError = require('../errors');
 
 async function createOrganization(req,res){
     const {orgname,domain,address,city,state,country,pincode,contact}=req.body;
+    if(!orgname||!domain||!address||!city||!country||!pincode||!contact){
+        throw new CustomError.BadRequestError("please provide all the feilds");
+    }
     const organization=await createOrganizationService(orgname,domain,address,city,state,country,pincode,contact);
     if(organization){
         return res.status(StatusCodes.CREATED).json({

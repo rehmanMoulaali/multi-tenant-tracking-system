@@ -13,7 +13,7 @@ const bcrypt = require('bcryptjs');
 const CustomAPIError = require("../errors/Custom-api.js");
 
 
-async function createUserService(name,email,password,userName,organizationId,userName,roleId){
+async function createUserService(name,email,password,userName,organizationId,roleId){
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
      if(roleId){
@@ -82,6 +82,13 @@ async function getAllUsersByOrganizationService(organizationId){
     return users;
 }
 
+async function getUserByUserIdService(userId){
+    return await prisma.user.findUnique({
+        where:{
+            id:userId
+        }
+    });
+}
 async function assignRoleToUserService(userId,roleId){
     // Fetch the user's organization ID
     const user = await prisma.user.findUnique({
@@ -228,6 +235,7 @@ module.exports={
     createUserService,
     getAllUsersService,
     getAllUsersByOrganizationService,
+    getUserByUserIdService,
     assignRoleToUserService,
     updatePasswordForUserService,
     updateUserService,
