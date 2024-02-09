@@ -4,7 +4,7 @@ const { createFeatureService,
         getAllFeaturesService,
         getFeatureByIdService,
         updateFeatureService,
-        deleteFeatureByIdService} = require("../services/featureServices");
+        deleteFeatureByIdService} = require("../services/FeatureServices");
 
 async function createFeature(req,res,next){
     const {name,description,api_path,action}=req.body;
