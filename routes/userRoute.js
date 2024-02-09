@@ -1,0 +1,24 @@
+const {Router} = require('express');
+const {
+    createUser,
+    getAllUsers,
+    getAllUsersByOrganization,
+    getUserByUserId,
+    assignRoleToUser,
+    updatePasswordForUser,
+    updateUser,
+    deleteUser
+} = require('../controller/userController');
+
+const userRouter= Router();
+
+userRouter.post('/',createUser);
+userRouter.get('/',getAllUsers);
+userRouter.get('/organization/:organizationId',getAllUsersByOrganization);
+userRouter.get('/:id',getUserByUserId);
+userRouter.patch('/role',assignRoleToUser);
+userRouter.patch('/password',updatePasswordForUser);
+userRouter.put('/',updateUser);
+userRouter.delete('/:id',deleteUser);
+
+module.exports= userRouter;

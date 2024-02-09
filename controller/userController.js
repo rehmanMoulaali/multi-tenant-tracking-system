@@ -11,8 +11,6 @@ const {
     updateUserService,
     deleteUserService
 } = require('../services/UserServices');
-const { updateFeature } = require('./featureController');
-const e = require('express');
 
 
 async function createUser(req,res,next){
@@ -106,4 +104,28 @@ async function updateUser(req,res,next){
     } catch (error) {
         next(error);
     }
+}
+
+async function deleteUser(req,res,next){
+    try {
+        const {id}=req.params;
+        const deletedUser= await deleteUserService(id);
+        if(!deleteUser){
+            throw new CustomError.CustomAPIError("something went wring please ensure user Id is correct and try again");
+        }
+        res.status(StatusCodes.OK).json({deleteUser});
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports={
+    createUser,
+    getAllUsers,
+    getAllUsersByOrganization,
+    getUserByUserId,
+    assignRoleToUser,
+    updatePasswordForUser,
+    updateUser,
+    deleteUser
 }
