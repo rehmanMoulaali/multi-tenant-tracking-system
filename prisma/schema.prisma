@@ -20,7 +20,8 @@ model Organization{
   country String
   pincode String
   contact String
-  roles     Roles[]   // One-to-many relationship with Roles model
+  roles     Roles[]
+  user User[]   // One-to-many relationship with Roles model
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   @@unique([domain,pincode])
@@ -44,7 +45,8 @@ model Roles {
   updatedAt      DateTime   @updatedAt
   organizationId Int        // Foreign key to Organization model
   organization   Organization @relation(fields: [organizationId], references: [id])
-  features       RoleFeatures[] 
+  features       RoleFeatures[]
+  user User[] 
 }
 
 model RoleFeatures {
@@ -55,6 +57,19 @@ model RoleFeatures {
   @@id([roleId, featureId])
 }
 
+model User{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique 
+  password String
+  userName String @unique
+  organizationId Int        // Foreign key to Organization model
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  roleId Int
+  roles Roles[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
 
 enum Action{
   READ
