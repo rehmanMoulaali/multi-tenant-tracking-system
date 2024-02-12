@@ -17,7 +17,7 @@ async function createUserService(name,email,password,userName,organizationId,rol
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
      if(roleId){
-        const role = await prisma.role.findUnique({
+        const role = await prisma.roles.findUnique({
             where: {
                 id: roleId
             },
@@ -66,7 +66,7 @@ async function getAllUsersService(){
 async function getAllUsersByOrganizationService(organizationId){
     const users = await prisma.user.findMany({
         where: {
-            organizationId: organizationId
+            organizationId: Number(organizationId)
         },
         select: {
             id: true,
@@ -101,7 +101,7 @@ async function assignRoleToUserService(userId,roleId){
     });
 
     // Fetch the role with its organization ID
-    const role = await prisma.role.findUnique({
+    const role = await prisma.roles.findUnique({
         where: {
             id: roleId
         },
@@ -142,23 +142,15 @@ async function assignRoleToUserService(userId,roleId){
 async function updatePasswordForUserService(userId,oldPassword,newPassword){
     const user = await prisma.user.findUnique({
         where: {
-            id: userId
+            id: Number(userId)
         },
         select: {
             password: true
-        },
-        select: {
-            id: true,
-            name: true,
-            email: true,
-            userName: true,
-            organization: true,
-            roles: true,
-
         }
     });
 
     // Compare the provided old password with the current password hash
+    console.log(user);
     const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
     if (!isPasswordValid) {
         throw new Error("Old password is incorrect.");

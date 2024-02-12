@@ -109,7 +109,7 @@ async function updateUser(req,res,next){
 async function deleteUser(req,res,next){
     try {
         const {id}=req.params;
-        const deletedUser= await deleteUserService(id);
+        const deletedUser= await deleteUserService(Number(id));
         if(!deleteUser){
             throw new CustomError.CustomAPIError("something went wring please ensure user Id is correct and try again");
         }
