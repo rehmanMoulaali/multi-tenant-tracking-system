@@ -10,7 +10,7 @@
 
 const prisma = require("../db/db.config.js");
 const bcrypt = require('bcryptjs');
-const CustomAPIError = require("../errors/Custom-api.js");
+const {CustomAPIError,ResourceNotFound,UnauthenticatedError} = require("../errors/index.js");
 
 
 async function createUserService(name,email,password,userName,organizationId,roleId){
@@ -223,6 +223,34 @@ async function deleteUserService(userId){
     return deltedUser;
 }
 
+async function validateUserOnLoginService(email,password){
+    const user=await prisma.user.findUnique({
+        where:{
+            email:email,
+        },
+        include:{
+            id: true,
+            name: true,
+            email:true,
+            password:true,
+            organization:true,
+            roles:true
+        }
+    })
+    if(!user){
+        throw new ResourceNotFound(`no user found with the email ${email}`);
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        throw new UnauthenticatedError("please eneter right credentials");
+    }
+    return createTokenUser(user);
+}
+
+function createTokenUser(user){
+    return {name:user.name,id:user.id,email:user.email,organizationId:user.organization.id,role:user.role.id}
+}
+
 module.exports={
     createUserService,
     getAllUsersService,
@@ -231,5 +259,6 @@ module.exports={
     assignRoleToUserService,
     updatePasswordForUserService,
     updateUserService,
-    deleteUserService
+    deleteUserService,
+    validateUserOnLoginService
 }
