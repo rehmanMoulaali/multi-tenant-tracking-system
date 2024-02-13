@@ -9,16 +9,17 @@ const {
     deleteRoleById,
     updateRoleOrganization
 } = require('../controller/roleController');
+const { authenticateUser } = require("../middleware/authentication");
 
 const roleRouter=Router();
 
-roleRouter.post('/',createRoleForOrganization);
-roleRouter.get('/',getAllRoles);
-roleRouter.get('/organization/:organizationId',getAllRolesForOrganization);
-roleRouter.get('/features/:roleId',getFeaturesForRole);
-roleRouter.patch('/organization',updateRoleOrganization);
-roleRouter.post('/feature',assignFeatureToRole);
-roleRouter.delete('/feature',removeFeatureFromRole);
-roleRouter.delete('/:roleId',deleteRoleById);
+roleRouter.post('/',authenticateUser,createRoleForOrganization);
+roleRouter.get('/',authenticateUser,getAllRoles);
+roleRouter.get('/organization/:organizationId',authenticateUser,getAllRolesForOrganization);
+roleRouter.get('/features/:roleId',authenticateUser,getFeaturesForRole);
+roleRouter.patch('/organization',authenticateUser,updateRoleOrganization);
+roleRouter.post('/feature',authenticateUser,assignFeatureToRole);
+roleRouter.delete('/feature',authenticateUser,removeFeatureFromRole);
+roleRouter.delete('/:roleId',authenticateUser,deleteRoleById);
 
 module.exports=roleRouter;

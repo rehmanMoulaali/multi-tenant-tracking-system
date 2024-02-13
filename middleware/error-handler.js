@@ -9,7 +9,6 @@ const errorHandlerMiddleware = (err, req, res, next) => {
   if (statusCode === StatusCodes.INTERNAL_SERVER_ERROR) {
     console.error(err); // Log internal server errors
   }
-
   res.status(statusCode).json({ error: message });
 };
 

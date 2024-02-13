@@ -208,7 +208,6 @@ async function deleteUserService(userId){
     const deltedUser = await prisma.user.delete({
         where:{
             id:userId
-
         },
         select: {
             id: true,
@@ -224,11 +223,12 @@ async function deleteUserService(userId){
 }
 
 async function validateUserOnLoginService(email,password){
-    const user=await prisma.user.findUnique({
+    console.log(email,password,'----------------');
+    const user = await prisma.user.findUnique({
         where:{
             email:email,
         },
-        include:{
+        select:{
             id: true,
             name: true,
             email:true,
@@ -236,7 +236,7 @@ async function validateUserOnLoginService(email,password){
             organization:true,
             roles:true
         }
-    })
+    });
     if(!user){
         throw new ResourceNotFound(`no user found with the email ${email}`);
     }
@@ -244,11 +244,13 @@ async function validateUserOnLoginService(email,password){
     if (!isPasswordValid) {
         throw new UnauthenticatedError("please eneter right credentials");
     }
-    return createTokenUser(user);
+    const tokenuser=createTokenUser(user);
+
+    return tokenuser;
 }
 
 function createTokenUser(user){
-    return {name:user.name,id:user.id,email:user.email,organizationId:user.organization.id,role:user.role.id}
+    return {name:user.name,id:user.id,email:user.email,organizationId:user.organization.id,roleId:user.roles.id}
 }
 
 module.exports={
