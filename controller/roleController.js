@@ -1,9 +1,10 @@
 const { StatusCodes } = require("http-status-codes");
-const { CustomAPIError, NotFoundError } = require("../errors");
+const { CustomAPIError, NotFoundError,BadRequestError } = require("../errors");
 const {
     createRoleForOrganizationService,
     updateRoleOrganizationService,
     getAllRolesService,
+    getRoleByIdService,
     getAllRolesForOrganizationService,
     assignFeatureToRoleService,
     getFeaturesForRoleService,
@@ -55,7 +56,18 @@ async function getAllRoles(req,res,next){
         next(error);
     }
 }
-
+async function getRoleById(req,res,next){
+    try {
+        const roleId=req.params.id;
+        const role=await getRoleByIdService(roleId);
+        if(!role){
+            throw new NotFoundError(`no role found for id ${roleId}`);
+        }
+        res.status(StatusCodes.OK).json({role});
+    } catch (error) {
+        next(error);
+    }
+}
 async function getAllRolesForOrganization(req,res,next){
     try {
         const {organizationId} = req.params;
@@ -122,6 +134,7 @@ module.exports={
     assignFeatureToRole,
     removeFeatureFromRole,
     getAllRoles,
+    getRoleById,
     getAllRolesForOrganization,
     getFeaturesForRole,
     deleteRoleById,

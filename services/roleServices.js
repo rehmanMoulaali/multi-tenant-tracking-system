@@ -35,6 +35,27 @@ async function getAllRolesService(){
     return roles;
 }
 
+async function getRoleByIdService(id){
+    const role=await prisma.roles.findUnique({
+        where:{
+            id:Number(id)
+        },
+        include:{
+            features:{
+                select:{
+                    feature:{
+                        select:{
+                            api_path:true,
+                            action:true
+                        }
+                    }
+                }
+            }
+        }
+    });
+    return role;
+}
+
 async function getAllRolesForOrganizationService(organizationId){
     const roles=await prisma.roles.findMany({
         where:{
@@ -91,6 +112,7 @@ module.exports={
     createRoleForOrganizationService,
     updateRoleOrganizationService,
     getAllRolesService,
+    getRoleByIdService,
     getAllRolesForOrganizationService,
     assignFeatureToRoleService,
     getFeaturesForRoleService,

@@ -4,6 +4,7 @@ const {
     assignFeatureToRole,
     removeFeatureFromRole,
     getAllRoles,
+    getRoleById,
     getAllRolesForOrganization,
     getFeaturesForRole,
     deleteRoleById,
@@ -17,6 +18,7 @@ roleRouter.post('/',authenticateUser,createRoleForOrganization);
 roleRouter.get('/',authenticateUser,getAllRoles);
 roleRouter.get('/organization/:organizationId',authenticateUser,getAllRolesForOrganization);
 roleRouter.get('/features/:roleId',authenticateUser,getFeaturesForRole);
+roleRouter.get('/:id',getRoleById);
 roleRouter.patch('/organization',authenticateUser,updateRoleOrganization);
 roleRouter.post('/feature',authenticateUser,assignFeatureToRole);
 roleRouter.delete('/feature',authenticateUser,removeFeatureFromRole);
