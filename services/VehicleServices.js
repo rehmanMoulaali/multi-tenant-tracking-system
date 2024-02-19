@@ -2,7 +2,7 @@ const prisma = require("../db/db.config.js");
 const bcrypt = require('bcryptjs');
 const {CustomAPIError,ResourceNotFound,UnauthenticatedError,UnauthorizedError} = require("../errors/index.js");
 
-async function createNewVehicles(device_id,name,organizationId){
+async function createNewVehiclesService(device_id,name,organizationId){
     const vehicle = await prisma.vehicle.create({
         data:{
             device_id:device_id,
@@ -35,7 +35,7 @@ async function getOrganizationVehiclesService(organizationId){
     return organizationVehicles;
 }
 
-async function getVehicleById(vehicleId,organizationId){
+async function getVehicleByIdService(vehicleId,organizationId){
     const vehicle=await prisma.vehicle.findUnique({
         where:{id:vehicleId}
     });
@@ -45,7 +45,7 @@ async function getVehicleById(vehicleId,organizationId){
     return vehicle;
 }
 
-async function getAllVehicles(){
+async function getAllVehiclesService(){
     return await prisma.vehicle.findMany();
 }
 
@@ -69,4 +69,14 @@ async function deleteVehicleService(vehicleId,organizationId){
         }
     });
     return deletedVehicle;
+}
+
+module.exports={
+    createNewVehiclesService,
+    updateVehicleLocationService,
+    getOrganizationVehiclesService,
+    getVehicleByIdService,
+    getAllVehiclesService,
+    updateVehicleService,
+    deleteVehicleService
 }
