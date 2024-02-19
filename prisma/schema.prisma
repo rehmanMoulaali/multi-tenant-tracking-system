@@ -76,6 +76,7 @@ model User{
 model Vehicle{
   id Int @id @default(autoincrement())
   device_id String 
+  name String
   longitude Decimal @default(0.0)
   latitude Decimal @default(0.0)
   organizationId Int  
