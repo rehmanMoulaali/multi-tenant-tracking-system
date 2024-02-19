@@ -9,10 +9,11 @@ const {
     updateUser,
     deleteUser
 } = require('../controller/userController');
+const { authenticateUser,authorizePermissions } = require('../middleware/authentication');
 
 const userRouter= Router();
 
-userRouter.post('/',createUser);
+userRouter.post('/',authenticateUser,authorizePermissions,createUser);
 userRouter.get('/',getAllUsers);
 userRouter.get('/organization/:organizationId',getAllUsersByOrganization);
 userRouter.get('/:id',getUserByUserId);

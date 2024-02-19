@@ -16,6 +16,7 @@ const {CustomAPIError,ResourceNotFound,UnauthenticatedError} = require("../error
 async function createUserService(name,email,password,userName,organizationId,roleId){
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    console.log(roleId,organizationId);
      if(roleId){
         const role = await prisma.roles.findUnique({
             where: {
@@ -25,6 +26,8 @@ async function createUserService(name,email,password,userName,organizationId,rol
                 organizationId: true
             }
         });
+        console.log(role,"-------------------------------------------");
+        console.log(organizationId===role.organizationId);
         if (organizationId !== role.organizationId) {
             throw new CustomAPIError("Organization ID of the user does not match the organization ID of the role.");
         }

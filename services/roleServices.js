@@ -108,6 +108,17 @@ async function deleteRoleService(roleId){
     return role;
 }
 
+async function getRoleFeatureAssociationService(roleId,featureId){
+    return await prisma.roleFeatures.findUnique({
+        where: {
+            roleId_featureId: {
+                roleId: roleId,
+                featureId: featureId
+            }
+        }
+    })
+}
+
 module.exports={
     createRoleForOrganizationService,
     updateRoleOrganizationService,
@@ -117,5 +128,6 @@ module.exports={
     assignFeatureToRoleService,
     getFeaturesForRoleService,
     removeFeatureFromRoleService,
-    deleteRoleService
+    deleteRoleService,
+    getRoleFeatureAssociationService
 }

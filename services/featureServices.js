@@ -57,11 +57,21 @@ async function deleteFeatureByIdService(featureId){
     })
 }
 
+async function getFeatureByPathAndActionService(path,action){
+    return await Feature.findFirst({
+        where:{
+            api_path:path,
+            action:action
+        }
+    })
+}
+
 
 module.exports={
     createFeatureService,
     getAllFeaturesService,
     getFeatureByIdService,
     updateFeatureService,
-    deleteFeatureByIdService
+    deleteFeatureByIdService,
+    getFeatureByPathAndActionService
 }
