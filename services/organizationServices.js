@@ -8,6 +8,12 @@
 //     country String
 //     pincode String
 //     contact String
+// contactName String
+//   contactPhone String
+//   contactEmail String
+//   contactDesignation String
+//   contactDepartment String
+//   organizationStatus OrganizationStatus
 //     createdAt DateTime  @default(now())
 //     updatedAt DateTime  @updatedAt
 //     @@unique([domain,pincode])
@@ -15,7 +21,7 @@
 
 const prisma = require("../db/db.config.js");
 
-async function createOrganizationService(name,domain,address,city,state,country,pincode,contact){
+async function createOrganizationService(name,domain,address,city,state,country,pincode,contactName,contactPhone,contactEmail,contactDesignation,contactDepartment,organizationStatus){
     const organization=await prisma.organization.create({
         data:{
             name,
@@ -25,7 +31,12 @@ async function createOrganizationService(name,domain,address,city,state,country,
             state,
             country,
             pincode,
-            contact
+            contactName,
+            contactPhone,
+            contactEmail,
+            contactDesignation,
+            contactDepartment,
+            organizationStatus
         }
     });
     return organization    
@@ -63,7 +74,12 @@ async function updateOrganizationService(id,name,domain,address,city,state,count
             state,
             country,
             pincode,
-            contact
+            contactName,
+            contactPhone,
+            contactEmail,
+            contactDesignation,
+            contactDepartment,
+            organizationStatus
         }
     })
 }

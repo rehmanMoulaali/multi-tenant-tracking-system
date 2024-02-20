@@ -10,11 +10,11 @@ const CustomError = require('../errors');
 
 
 async function createOrganization(req,res){
-    const {orgname,domain,address,city,state,country,pincode,contact}=req.body;
-    if(!orgname||!domain||!address||!city||!country||!pincode||!contact){
+    const {orgname,domain,address,city,state,country,pincode,contactName,contactPhone,contactEmail,contactDesignation,contactDepartment,organizationStatus}=req.body;
+    if(!orgname||!domain||!address||!city||!country||!pincode||!contactName || !contactPhone || !contactEmail || !contactDesignation || !contactDepartment ){
         throw new CustomError.BadRequestError("please provide all the feilds");
     }
-    const organization=await createOrganizationService(orgname,domain,address,city,state,country,pincode,contact);
+    const organization=await createOrganizationService(orgname,domain,address,city,state,country,pincode,contactName,contactPhone,contactEmail,contactDesignation,contactDepartment,organizationStatus);
     if(organization){
         return res.status(StatusCodes.CREATED).json({
             organization,

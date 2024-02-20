@@ -25,6 +25,17 @@ async function updateVehicleLocationService(vehicleId, newLongitude, newLatitude
             longitude:newLongitude
         }
     });
+    await prisma.locationData.create({
+        data:{
+            latitude:newLatitude,
+            longitude:newLongitude,
+            vehicle:{
+                connect:{
+                    id:vehicleId
+                }
+            }
+        }
+    })
     return updatedVehicle;
 }
 

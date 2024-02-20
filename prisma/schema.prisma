@@ -19,7 +19,12 @@ model Organization{
   state String
   country String
   pincode String
-  contact String
+  contactName String
+  contactPhone String
+  contactEmail String
+  contactDesignation String
+  contactDepartment String
+  organizationStatus OrganizationStatus @default(INACTIVE)
   roles     Roles[]
   user User[]   // One-to-many relationship with Roles model
   vehicles Vehicle[]
@@ -81,15 +86,28 @@ model Vehicle{
   latitude Decimal @default(0.0)
   organizationId Int  
   organization   Organization @relation(fields: [organizationId], references: [id])
+  locationData LocationData[]
   heatbeat DateTime @default(now())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
 
+model LocationData{
+  id Int @id @default(autoincrement())
+  longitude Decimal @default(0.0)
+  latitude Decimal @default(0.0)
+  vehicleId Int
+  vehicle Vehicle @relation(fields: [vehicleId],references: [id])
+}
 enum Action{
   GET
   POST 
   PUT 
   DELETE
   PATCH
+}
+
+enum OrganizationStatus {
+  ACTIVE
+  INACTIVE
 }
