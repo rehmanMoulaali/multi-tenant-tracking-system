@@ -28,6 +28,7 @@ model Organization{
   roles     Roles[]
   user User[]   // One-to-many relationship with Roles model
   vehicles Vehicle[]
+  routes Route[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   @@unique([domain,pincode])
@@ -92,6 +93,28 @@ model Vehicle{
   updatedAt   DateTime  @updatedAt
 }
 
+model Route{
+  id Int @id @default(autoincrement())
+  routeId String
+  name String
+  routeType RouteTypes
+  routeCoordinates RouteCoordinate[]
+  organizationId Int  
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model RouteCoordinate{
+  id Int @id @default(autoincrement())
+  lonlongitude Decimal @default(0.0)
+  latitude Decimal @default(0.0)
+  routeId Int
+  route Route @relation(fields: [routeId],references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
 model LocationData{
   id Int @id @default(autoincrement())
   longitude Decimal @default(0.0)
@@ -105,6 +128,12 @@ enum Action{
   PUT 
   DELETE
   PATCH
+}
+
+enum RouteTypes{
+  UNI_DIRCTIONAL
+  BI_DIRECTIONAL_SAME_STOPS
+  BI_DIRECTIONAL_DIFFERENT_STOPS
 }
 
 enum OrganizationStatus {
