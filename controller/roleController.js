@@ -13,6 +13,13 @@ const {
 } = require('../services/roleServices');
 const { roles } = require("../db/db.config");
 
+/**
+* Creates a new role for an organization.
+*
+* @param {Request} req The request object.
+* @param {Response} res The response object.
+* @param {NextFunction} next The next function in the middleware chain.
+*/
 async function createRoleForOrganization(req,res,next){
     try {
         const {name,organizationId} = req.body;
@@ -35,6 +42,7 @@ async function createRoleForOrganization(req,res,next){
  * 
  * to update or assign new organization to the role
  */
+
 async function updateRoleOrganization(req,res,next){
     try {
         const {roleId,organizationId} = req.body;
@@ -48,6 +56,13 @@ async function updateRoleOrganization(req,res,next){
     }
 }
 
+/**
+* Get all roles.
+*
+* @param {Object} req The request object.
+* @param {Object} res The response object.
+* @param {Function} next The next function.
+*/
 async function getAllRoles(req,res,next){
     try {
         const roles = await getAllRolesService();
@@ -56,6 +71,14 @@ async function getAllRoles(req,res,next){
         next(error);
     }
 }
+
+/**
+* Gets a role by its ID.
+*
+* @param {Request} req The request object.
+* @param {Response} res The response object.
+* @param {NextFunction} next The next function in the middleware chain.
+*/
 async function getRoleById(req,res,next){
     try {
         const roleId=req.params.id;
@@ -68,6 +91,14 @@ async function getRoleById(req,res,next){
         next(error);
     }
 }
+
+/**
+* Gets all roles for an organization.
+*
+* @param {Object} req The request object.
+* @param {Object} res The response object.
+* @param {Function} next The next function.
+*/
 async function getAllRolesForOrganization(req,res,next){
     try {
         const {organizationId} = req.params;

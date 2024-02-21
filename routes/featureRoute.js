@@ -8,9 +8,13 @@ const { createFeature,
 const featureRouter=Router();
 
 featureRouter.post('/',createFeature);
+
 featureRouter.get('/',getAllFeatures);
+
 featureRouter.get('/:id',getFeatureById);
+
 featureRouter.put('/:id',updateFeature);
+
 featureRouter.delete('/:id',deleteFeatureById);
 
 module.exports=featureRouter;

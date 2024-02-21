@@ -13,22 +13,40 @@ const {
 } = require('../services/UserServices');
 
 
-async function createUser(req,res,next){
-    try {
-        const {name,email,password,userName,organizationId,roleId} = req.body;
-        if(!name || !email || !password || !userName || !organizationId){
-            throw new CustomError.BadRequestError("please provide all the must feilds");
-        }
-        const user = await createUserService(name,email,password,userName,organizationId,roleId);
-        if(!user){
-            throw new CustomError.CustomAPIError("something went wrong please try later");
-        }
-        res.status(StatusCodes.CREATED).json({user})
-    } catch (error) {
-        next(error);
-    }
+/**
+* Creates a new user with the given details.
+*
+* @param {Request} req The request object.
+* @param {Response} res The response object.
+* @param {NextFunction} next The next function in the middleware chain.
+*/
+async function createUser(req, res, next) {
+   try {
+       const { name, email, password, userName, organizationId, roleId } = req.body;
+
+       if (!name || !email || !password || !userName || !organizationId) {
+           throw new CustomError.BadRequestError("Please provide all the must fields");
+       }
+
+       const user = await createUserService(name, email, password, userName, organizationId, roleId);
+
+       if (!user) {
+           throw new CustomError.CustomAPIError("Something went wrong, please try later");
+       }
+
+       res.status(StatusCodes.CREATED).json({ user });
+   } catch (error) {
+       next(error);
+   }
 }
 
+/**
+* Get all users.
+*
+* @param {Object} req The request object.
+* @param {Object} res The response object.
+* @param {Function} next The next function in the middleware chain.
+*/
 async function getAllUsers(req,res,next){
     try {
         const users = await getAllUsersService();
@@ -38,6 +56,13 @@ async function getAllUsers(req,res,next){
     }
 }
 
+/**
+* Get all users by organization.
+*
+* @param {Object} req The request object.
+* @param {Object} res The response object.
+* @param {Function} next The next function in the middleware chain.
+*/
 async function getAllUsersByOrganization(req,res,next){
     try {
         const {organizationId} = req.params;
@@ -47,6 +72,7 @@ async function getAllUsersByOrganization(req,res,next){
         next(error)
     }
 }
+
 
 async function getUserByUserId(req,res,next){
     try {

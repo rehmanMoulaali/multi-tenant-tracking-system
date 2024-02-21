@@ -6,6 +6,13 @@ const { createFeatureService,
         updateFeatureService,
         deleteFeatureByIdService} = require("../services/FeatureServices");
 
+/**
+* Creates a new feature.
+*
+* @param {Request} req The request object.
+* @param {Response} res The response object.
+* @param {NextFunction} next The next function in the middleware chain.
+*/
 async function createFeature(req,res,next){
     const {name,description,api_path,action}=req.body;
     try {
@@ -22,6 +29,13 @@ async function createFeature(req,res,next){
     }
 }
 
+/**
+* Get all features.
+*
+* @param {Object} req The request object.
+* @param {Object} res The response object.
+* @param {Function} next The next middleware function.
+*/
 async function getAllFeatures(req,res,next){
     try {
         const features= await getAllFeaturesService();
@@ -32,6 +46,13 @@ async function getAllFeatures(req,res,next){
     }
 }
 
+/**
+* Gets a feature by its ID.
+*
+* @param {Request} req The request object.
+* @param {Response} res The response object.
+* @param {NextFunction} next The next function in the middleware chain.
+*/
 async function getFeatureById(req,res,next){
     const featureId=req.params.id;
     try {
@@ -45,6 +66,13 @@ async function getFeatureById(req,res,next){
     }
 }
 
+/**
+* Updates a feature with the given id.
+*
+* @param {Request} req The request object.
+* @param {Response} res The response object.
+* @param {NextFunction} next The next function in the middleware chain.
+*/
 async function updateFeature(req,res,next){
     const {name,description,api_path,action}=req.body;
     const featureId = req.params.id;
@@ -59,6 +87,13 @@ async function updateFeature(req,res,next){
     }
 }
 
+/**
+* Delete a feature with the given id.
+*
+* @param {Request} req The request object.
+* @param {Response} res The response object.
+* @param {NextFunction} next The next function in the middleware chain.
+*/
 async function deleteFeatureById(req,res,next){
     const featureId=req.params.id;
     try {

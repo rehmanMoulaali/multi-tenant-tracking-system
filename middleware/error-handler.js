@@ -1,5 +1,13 @@
 const { StatusCodes } = require('http-status-codes');
 
+/**
+* Middleware to handle errors.
+*
+* @param {Error} err Express error object.
+* @param {Object} req Express request object.
+* @param {Object} res Express response object.
+* @param {Function} next Express next function.
+*/
 const errorHandlerMiddleware = (err, req, res, next) => {
   console.log('Error:', err);
 
