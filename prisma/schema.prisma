@@ -107,6 +107,7 @@ model Route{
 
 model RouteCoordinate{
   id Int @id @default(autoincrement())
+  order Int
   lonlongitude Decimal @default(0.0)
   latitude Decimal @default(0.0)
   routeId Int
